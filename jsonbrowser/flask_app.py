@@ -2,8 +2,9 @@ from flask import Flask
 from flask import render_template
 from flask_bootstrap import Bootstrap
 from jsonbrowser.content.creation import create_example_content
-from jsonbrowser.db import db
-from jsonbrowser.models.todo import Todo
+
+
+TODOS = []
 
 
 def create_app():
@@ -13,10 +14,6 @@ def create_app():
 
 
 app = create_app()
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../dev.db'
-
-db.init_app(app)
 
 
 @app.route('/')
@@ -31,26 +28,20 @@ def theme_test():
 
 @app.route('/todos/')
 def list_todos():
-    todos = Todo.query.all()
+    todos = TODOS
     return render_template('todos.html', todos=todos)
 
 
-@app.route('/todos/<todo_id>')
+@app.route('/todos/<int:todo_id>')
 def view_todo(todo_id):
-    todo = Todo.query.filter_by(id=todo_id).one()
+    todo = TODOS[todo_id - 1]
     return render_template('todo.html', todo=todo)
 
 
-def initdb():
-    """Init/reset database."""
-    db.drop_all()
-    db.create_all()
-    create_example_content(db)
-
-
 def run_server():
+    global TODOS
     app.test_request_context().push()
-    initdb()
+    TODOS = create_example_content()
     app.run(debug=True)
 
 

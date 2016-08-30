@@ -35,7 +35,6 @@ setup(
     install_requires=[
         'setuptools',
         'Flask',
-        'Flask-SQLAlchemy',
         'Flask-Bootstrap',
     ],
 
