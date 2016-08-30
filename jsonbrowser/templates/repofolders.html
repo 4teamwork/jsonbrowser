@@ -13,7 +13,7 @@
   <ul>
   {% for repofolder in repofolders %}
     {% set fields = repofolder['_source'] %}
-    <li><a href="{{ url_for('view_repofolder', repofolder_id=repofolder._id) }}">{{fields.title}}</a></li>
+    <li><a href="{{ url_for('view_item', _type='opengever.repository.repositoryroot', es_id=repofolder._id) }}">{{fields.title}}</a></li>
   {% endfor %}
   </ul>
 

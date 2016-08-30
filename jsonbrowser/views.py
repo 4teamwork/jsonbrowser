@@ -29,13 +29,12 @@ def list_repofolders():
     return render_template('repofolders.html', repofolders=repofolders)
 
 
-@app.route('/repofolders/<repofolder_id>')
-def view_repofolder(repofolder_id):
-    _type = 'opengever.repository.repositoryroot'
-    url = '%s/%s/%s' % (ES_URL, _type, repofolder_id)
+@app.route('/view/<_type>/<es_id>')
+def view_item(_type, es_id):
+    url = '%s/%s/%s' % (ES_URL, _type, es_id)
     response = requests.get(url)
-    repofolder = response.json()
-    return render_template('repofolder.html', repofolder=repofolder)
+    doc = response.json()
+    return render_template('view_item.html', doc=doc)
 
 
 @app.route('/reindex')
