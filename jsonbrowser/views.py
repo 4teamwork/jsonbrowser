@@ -22,15 +22,19 @@ def theme_test():
 
 @app.route('/repofolders/')
 def list_repofolders():
-    repofolders = get_example_content()
+    _type = 'opengever.repository.repositoryroot'
+    url = '%s/%s/_search' % (ES_URL, _type)
+    response = requests.get(url)
+    repofolders = response.json()['hits']['hits']
     return render_template('repofolders.html', repofolders=repofolders)
 
 
 @app.route('/repofolders/<repofolder_id>')
 def view_repofolder(repofolder_id):
-    repofolder = [
-        r for r in get_example_content()
-        if r['id'] == repofolder_id][0]
+    _type = 'opengever.repository.repositoryroot'
+    url = '%s/%s/%s' % (ES_URL, _type, repofolder_id)
+    response = requests.get(url)
+    repofolder = response.json()
     return render_template('repofolder.html', repofolder=repofolder)
 
 
