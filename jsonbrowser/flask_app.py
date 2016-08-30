@@ -2,9 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask_bootstrap import Bootstrap
 from jsonbrowser.content.creation import create_example_content
-
-
-REPOFOLDERS = []
+from jsonbrowser.content.creation import get_example_content
 
 
 def create_app():
@@ -28,20 +26,21 @@ def theme_test():
 
 @app.route('/repofolders/')
 def list_repofolders():
-    repofolders = REPOFOLDERS
+    repofolders = get_example_content()
     return render_template('repofolders.html', repofolders=repofolders)
 
 
 @app.route('/repofolders/<repofolder_id>')
 def view_repofolder(repofolder_id):
-    repofolder = [r for r in REPOFOLDERS if r.id == repofolder_id][0]
+    repofolder = [
+        r for r in get_example_content()
+        if r['id'] == repofolder_id][0]
     return render_template('repofolder.html', repofolder=repofolder)
 
 
 def run_server():
-    global REPOFOLDERS
     app.test_request_context().push()
-    REPOFOLDERS = create_example_content()
+    create_example_content()
     app.run(debug=True)
 
 
