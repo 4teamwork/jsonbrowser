@@ -36,6 +36,7 @@ setup(
         'setuptools',
         'Flask',
         'Flask-Bootstrap',
+        'requests',
     ],
 
     tests_require=tests_require,
