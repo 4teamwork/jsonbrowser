@@ -1,4 +1,4 @@
-from jsonbrowser.models.todo import Todo
+from jsonbrowser.models.repofolder import RepoFolder
 
 
 class EntityFactory(object):
@@ -22,5 +22,5 @@ class EntityFactory(object):
         return entity
 
 
-class TodoFactory(EntityFactory):
-    model_class = Todo
+class RepoFolderFactory(EntityFactory):
+    model_class = RepoFolder

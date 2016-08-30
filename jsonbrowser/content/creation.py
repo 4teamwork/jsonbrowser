@@ -3,13 +3,13 @@ Utility functions for creating example content
 """
 
 from jsonbrowser.content.exampledata import dev
-from jsonbrowser.content.factories import TodoFactory
+from jsonbrowser.content.factories import RepoFolderFactory
 
 
 def create_example_content():
-    todos = []
-    for item in dev.TODOS:
-        todo = TodoFactory(item).create()
-        todos.append(todo)
+    repofolders = []
+    for item in dev.REPOFOLDERS:
+        repofolder = RepoFolderFactory(item).create()
+        repofolders.append(repofolder)
 
-    return todos
+    return repofolders

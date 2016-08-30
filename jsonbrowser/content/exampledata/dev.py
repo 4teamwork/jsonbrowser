@@ -1,10 +1,10 @@
-TODOS = [
+REPOFOLDERS = [
     dict(
-        id=1,
-        title=u'FIXME',
+        id=u'fuehrung',
+        title=u'F\xfchrung',
     ),
     dict(
-        id=2,
-        title=u'Buy Milk',
+        id=u'allgemeines',
+        title=u'Allgemeines',
     ),
 ]

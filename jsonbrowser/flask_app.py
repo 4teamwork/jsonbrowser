@@ -4,7 +4,7 @@ from flask_bootstrap import Bootstrap
 from jsonbrowser.content.creation import create_example_content
 
 
-TODOS = []
+REPOFOLDERS = []
 
 
 def create_app():
@@ -26,22 +26,22 @@ def theme_test():
     return render_template('theme-test.html')
 
 
-@app.route('/todos/')
-def list_todos():
-    todos = TODOS
-    return render_template('todos.html', todos=todos)
+@app.route('/repofolders/')
+def list_repofolders():
+    repofolders = REPOFOLDERS
+    return render_template('repofolders.html', repofolders=repofolders)
 
 
-@app.route('/todos/<int:todo_id>')
-def view_todo(todo_id):
-    todo = TODOS[todo_id - 1]
-    return render_template('todo.html', todo=todo)
+@app.route('/repofolders/<repofolder_id>')
+def view_repofolder(repofolder_id):
+    repofolder = [r for r in REPOFOLDERS if r.id == repofolder_id][0]
+    return render_template('repofolder.html', repofolder=repofolder)
 
 
 def run_server():
-    global TODOS
+    global REPOFOLDERS
     app.test_request_context().push()
-    TODOS = create_example_content()
+    REPOFOLDERS = create_example_content()
     app.run(debug=True)
 
 
