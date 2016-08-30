@@ -45,6 +45,6 @@ setup(
     entry_points='''
     # -*- Entry points: -*-
     [console_scripts]
-    run-jsonbrowser = jsonbrowser.flask_app:run_server
+    run-jsonbrowser = jsonbrowser.main:run_server
     ''',
 )
