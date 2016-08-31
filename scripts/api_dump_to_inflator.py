@@ -33,6 +33,11 @@ def extract_refnum(item):
         assert refnum.startswith(SITE_ABBR)
         refnum = refnum.replace(SITE_ABBR, '').strip()
         item['_refnum'] = refnum
+
+        # Deal with templates and other objs with fake refnums
+        if item['_refnum'].startswith('/ '):
+            item['_refnum'] = item['_refnum'].replace('/ ', '', 1)
+
         item.pop('_meta_reference')
     return item
 
