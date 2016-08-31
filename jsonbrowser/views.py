@@ -47,18 +47,7 @@ def tree_from_nodes(nodes, sortkey=None):
     return root
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/theme-test')
-def theme_test():
-    return render_template('theme-test.html')
-
-
-@app.route('/repofolders/')
-def list_repofolders():
+def build_navtree():
     _type = 'opengever.repository.repositoryfolder'
     repofolders = query_by_type(_type)
 
@@ -71,16 +60,31 @@ def list_repofolders():
          }
         for n in repofolders]
     tree = tree_from_nodes(nodes, sortkey='_sortable_refnum')
+    return tree
 
-    return render_template('repofolders.html', repofolders=tree)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/theme-test')
+def theme_test():
+    return render_template('theme-test.html')
+
+
+@app.route('/repofolders/')
+def list_repofolders():
+    navtree = build_navtree()
+    return render_template('repofolders.html', navtree=navtree)
 
 
 @app.route('/browse/<path:obj_path>')
 def browse(obj_path):
     obj_path = '/%s' % obj_path.strip('/')
     doc = query_by_path(obj_path)
-
-    return render_template('browse.html', doc=doc)
+    navtree = build_navtree()
+    return render_template('browse.html', doc=doc, navtree=navtree)
 
 
 @app.route('/reindex')

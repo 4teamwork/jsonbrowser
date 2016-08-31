@@ -11,7 +11,7 @@
   </div>
 
 
-{% from 'navtree-macro.html' import navtree %}
-{{ navtree(repofolders) }}
+{% from 'navtree-macro.html' import render_navtree %}
+{{ render_navtree(navtree) }}
 
 {% endblock %}

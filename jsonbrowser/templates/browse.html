@@ -6,33 +6,42 @@
 
 {% block content %}
 
+<div class="col-md-4">
+    <div class="page-header">
+        <h1>Repository</h1>
+    </div>
+    {% from 'navtree-macro.html' import render_navtree %}
+    {{ render_navtree(navtree) }}
+</div>
 
-<div class="page-header">
-  <h1>{{item.title}} <small>({{ doc._type }})</small></h1>
+<div class="col-md-8">
+    <div class="page-header">
+      <h1>{{item.title}} <small>({{ doc._type }})</small></h1>
 
-  <p>
-    <strong>Parent:</strong>
-    <a href="{{ url_for('browse', obj_path=item._parent_path.lstrip('/')) }}">{{ item._parent_path }}</a>
-  </p>
+      <p>
+        <strong>Parent:</strong>
+        <a href="{{ url_for('browse', obj_path=item._parent_path.lstrip('/')) }}">{{ item._parent_path }}</a>
+      </p>
 
-  <table class="table table-bordered table-hover">
-      {% for key in item.keys()|sort %}
-      <tr>
-            <th>{{ key }}</th>
-            <td>{{ item[key] }}</td>
-      </tr>
-      {% endfor %}
-  </table>
+      <table class="table table-bordered table-hover">
+          {% for key in item.keys()|sort %}
+          <tr>
+                <th>{{ key }}</th>
+                <td>{{ item[key] }}</td>
+          </tr>
+          {% endfor %}
+      </table>
 
-  <table class="table table-bordered small text-muted">
-      {% for key, value in doc.iteritems() %}
-      <tr>
-            <th>{{ key }}</th>
-            <td>{{ value }}</td>
-      </tr>
-      {% endfor %}
-  </table>
+      <table class="table table-bordered small text-muted">
+          {% for key, value in doc.iteritems() %}
+          <tr>
+                <th>{{ key }}</th>
+                <td>{{ value }}</td>
+          </tr>
+          {% endfor %}
+      </table>
 
+    </div>
 </div>
 
 {% endblock %}

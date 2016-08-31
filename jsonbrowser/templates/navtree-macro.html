@@ -1,7 +1,8 @@
-{% macro navtree(nodes, toplevel=True) -%}
+{% macro render_navtree(nodes, toplevel=True) -%}
 
 {% if toplevel %}
-<ul id="navtree" class="hidden">
+<div id="navtree-container" class="hidden">
+<ul id="navtree">
 {% else %}
 <ul>
 {%- endif %}
@@ -10,11 +11,16 @@
     <li>
         <a href="{{ url_for('browse', obj_path=node._path.lstrip('/')) }}">{{node._full_title}}</a>
         {% if node.nodes %}
-          {{ navtree(node.nodes) }}
+          {{ render_navtree(node.nodes, toplevel=False) }}
         {%- endif %}
     </li>
   {% endfor %}
 
+{% if toplevel %}
 </ul>
+</div>
+{% else %}
+</ul>
+{%- endif %}
 
 {%- endmacro %}
