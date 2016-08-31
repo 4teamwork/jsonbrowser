@@ -12,6 +12,11 @@ ES_URL = ''.join((ES_BASE, ES_INDEX))
 ES_MAX_PAGE_SIZE = 9999
 
 
+FULL_TITLE_ATTRS = {
+    'opengever.repository.repositoryfolder': '_title_with_refnum',
+}
+
+
 def tree_from_nodes(nodes, sortkey=None):
     """Creates a nested tree of nodes from a flat list-like object of nodes.
     Each node is expected to be a dict with a path-like string stored
@@ -62,10 +67,11 @@ def list_repofolders():
     assert resultset['hits']['total'] <= ES_MAX_PAGE_SIZE
     repofolders = resultset['hits']['hits']
 
+    full_title_attr = FULL_TITLE_ATTRS.get(_type, 'title')
     nodes = [
         {'_id': n['_id'],
          '_path': n['_source']['_path'],
-         'title': n['_source']['title'],
+         '_full_title': n['_source'].get(full_title_attr),
          '_sortable_refnum': n['_source']['_sortable_refnum'],
          }
         for n in repofolders]
