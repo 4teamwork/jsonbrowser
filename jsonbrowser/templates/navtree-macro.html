@@ -1,6 +1,10 @@
-{% macro navtree(nodes) -%}
+{% macro navtree(nodes, toplevel=True) -%}
 
+{% if toplevel %}
+<ul id="navtree">
+{% else %}
 <ul>
+{%- endif %}
 
   {% for node in nodes %}
     <li>
