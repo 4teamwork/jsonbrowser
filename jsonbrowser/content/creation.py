@@ -13,6 +13,15 @@ import os
 VAR_DIR = os.path.normpath(resource_filename('jsonbrowser', "../var"))
 JSON_PATH = os.path.join(VAR_DIR, 'example.json')
 
+TYPES = [
+    'opengever.repository.repositoryroot',
+    'opengever.repository.repositoryfolder',
+    'opengever.dossier.businesscasedossier',
+    'opengever.document.document',
+    'ftw.mail.mail',
+    'opengever.task.task',
+]
+
 
 def create_example_content():
     mkdir_p(VAR_DIR)
@@ -24,3 +33,13 @@ def create_example_content():
 def get_example_content():
     with open(JSON_PATH) as json_file:
         return json.load(json_file)
+
+
+def get_content():
+    data = []
+    for _type in TYPES:
+        json_path = os.path.join(VAR_DIR, '%s.json' % _type)
+        with open(json_path) as json_file:
+            items = json.load(json_file)
+            data.extend(items)
+    return data
