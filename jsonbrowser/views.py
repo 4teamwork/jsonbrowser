@@ -90,7 +90,7 @@ def browse(obj_path):
 def reindex():
     create_es_mapping()
     data = get_example_content()
-    for _id, item in enumerate(data):
-        index_item(_id, item)
+    for item in data:
+        index_item(item)
 
     return str({'status': 'success'})

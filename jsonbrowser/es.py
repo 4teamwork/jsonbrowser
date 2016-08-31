@@ -64,13 +64,13 @@ def query_by_path(obj_path):
     return doc
 
 
-def index_item(_id, item):
+def index_item(item):
     _type = item.pop('_type')
     _parent_path = os.path.dirname(item['_path'])
     item['_parent_path'] = _parent_path
-    url = '/'.join((ES_URL, _type, str(_id)))
+    url = '/'.join((ES_URL, _type))
     try:
-        response = requests.put(url, json=item)
+        response = requests.post(url, json=item)
     except ConnectionError:
         msg = ("Couldn't connect to ElasticSearch at %s - please "
                "make sure ES is running." % ES_URL)
