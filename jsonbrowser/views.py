@@ -81,10 +81,16 @@ def list_repofolders():
     return render_template('repofolders.html', navtree=navtree)
 
 
+@app.route('/browse/')
 @app.route('/browse/<path:obj_path>')
-def browse(obj_path):
+def browse(obj_path='/'):
+    site_id = app.config['PLONE_SITE_ID']
+
+    if obj_path == '/':
+        return redirect(url_for('browse', obj_path=site_id))
+
     obj_path = '/%s' % obj_path.strip('/')
-    if obj_path == '/%s' % app.config['PLONE_SITE_ID']:
+    if obj_path == '/%s' % site_id:
         # Plone Site Root
         doc = {
             '_type': 'Plone Site',
