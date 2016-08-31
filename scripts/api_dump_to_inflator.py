@@ -5,8 +5,10 @@ a format usable by ftw.inflator.
 
 from urlparse import urlparse
 import json
-import os
 import sys
+
+SITE_ABBR = 'FD'
+REFNUM_DELIMITER = '.'
 
 
 def url_to_path(item):
@@ -17,11 +19,20 @@ def url_to_path(item):
     return item
 
 
-def path_to_sortable_refnum(item):
-    path = item['_path']
-    parent_path = os.path.dirname(path)
-    _sortable_refnum = '%s-%s' % (parent_path, item['reference_number_prefix'])
+def refnum_to_sortable_refnum(item):
+    parts = map(int, item['_refnum'].split('.'))
+    padded = ['%03d' % n for n in parts]
+    _sortable_refnum = '-'.join(padded)
     item['_sortable_refnum'] = _sortable_refnum
+    return item
+
+
+def extract_refnum(item):
+    refnum = item['_meta_reference']
+    assert refnum.startswith(SITE_ABBR)
+    refnum = refnum.replace(SITE_ABBR, '').strip()
+    item['_refnum'] = refnum
+    item.pop('_meta_reference')
     return item
 
 
@@ -45,8 +56,9 @@ KEYS_TO_RENAME = {
 
 TRANSFORMS = [
     url_to_path,
-    path_to_sortable_refnum,
     translated_title_to_title,
+    extract_refnum,
+    refnum_to_sortable_refnum,
 ]
 
 
