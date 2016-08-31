@@ -1,0 +1,16 @@
+{% macro navtree(nodes) -%}
+
+<ul>
+
+  {% for node in nodes %}
+    <li>
+        <a href="{{ url_for('view_item', _type='opengever.repository.repositoryroot', es_id=node._id) }}">{{node.title}}</a>
+        {% if node.nodes %}
+          {{ navtree(node.nodes) }}
+        {%- endif %}
+    </li>
+  {% endfor %}
+
+</ul>
+
+{%- endmacro %}

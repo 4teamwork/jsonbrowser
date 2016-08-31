@@ -10,11 +10,8 @@
     <h1>RepoFolders</h1>
   </div>
 
-  <ul>
-  {% for repofolder in repofolders %}
-    {% set fields = repofolder['_source'] %}
-    <li><a href="{{ url_for('view_item', _type='opengever.repository.repositoryroot', es_id=repofolder._id) }}">{{fields.title}}</a></li>
-  {% endfor %}
-  </ul>
+
+{% from 'navtree-macro.html' import navtree %}
+{{ navtree(repofolders) }}
 
 {% endblock %}

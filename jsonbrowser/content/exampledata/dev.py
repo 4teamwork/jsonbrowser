@@ -1,14 +1,51 @@
 REPOFOLDERS = [
     dict(
+        _refnum=u'1',
+        _sortable_refnum=u'001',
         _path=u'/ordnungssystem/fuehrung',
         _type=u'opengever.repository.repositoryroot',
         id=u'fuehrung',
-        title=u'F\xfchrung',
+        title=u'1. F\xfchrung',
     ),
     dict(
+        _refnum=u'1.1',
+        _sortable_refnum=u'001-001',
+        _path=u'/ordnungssystem/fuehrung/personal',
+        _type=u'opengever.repository.repositoryroot',
+        id=u'personal',
+        title=u'1.1 Personal',
+    ),
+    dict(
+        _refnum=u'2',
+        _sortable_refnum=u'002',
         _path=u'/ordnungssystem/allgemeines',
         _type=u'opengever.repository.repositoryroot',
         id=u'allgemeines',
-        title=u'Allgemeines',
+        title=u'2. Allgemeines',
+    ),
+    # Funky sorting on purpose, in order to verify tree sorting logic
+    dict(
+        _refnum=u'2.2',
+        _sortable_refnum=u'002-002',
+        _path=u'/ordnungssystem/allgemeines/foo',
+        _type=u'opengever.repository.repositoryroot',
+        id=u'foo',
+        title=u'2.2 Foo',
+    ),
+    dict(
+        _refnum=u'2.3',
+        _sortable_refnum=u'002-003',
+        _path=u'/ordnungssystem/allgemeines/aaa',
+        _type=u'opengever.repository.repositoryroot',
+        id=u'aaa',
+        title=u'2.3 AAA',
+    ),
+    dict(
+        _refnum=u'2.1',
+        _sortable_refnum=u'002-001',
+        _path=u'/ordnungssystem/allgemeines/bar',
+        _type=u'opengever.repository.repositoryroot',
+        id=u'bar',
+        title=u'2.1 Bar',
     ),
 ]
