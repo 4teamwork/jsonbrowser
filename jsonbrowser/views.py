@@ -1,15 +1,12 @@
 from flask import render_template
 from jsonbrowser.content.creation import get_example_content
+from jsonbrowser.es import create_es_mapping
+from jsonbrowser.es import get_doc
+from jsonbrowser.es import index_item
+from jsonbrowser.es import query_by_path
+from jsonbrowser.es import query_by_type
 from jsonbrowser.flask_app import app
-from requests.exceptions import ConnectionError
 import os
-import requests
-
-
-ES_BASE = 'http://localhost:9200/'
-ES_INDEX = 'migration'
-ES_URL = ''.join((ES_BASE, ES_INDEX))
-ES_MAX_PAGE_SIZE = 9999
 
 
 FULL_TITLE_ATTRS = {
@@ -60,12 +57,7 @@ def theme_test():
 @app.route('/repofolders/')
 def list_repofolders():
     _type = 'opengever.repository.repositoryfolder'
-    url = '%s/%s/_search?size=%s' % (ES_URL, _type, ES_MAX_PAGE_SIZE)
-    query = {'sort': ['_sortable_refnum']}
-    response = requests.get(url, json=query)
-    resultset = response.json()
-    assert resultset['hits']['total'] <= ES_MAX_PAGE_SIZE
-    repofolders = resultset['hits']['hits']
+    repofolders = query_by_type(_type)
 
     full_title_attr = FULL_TITLE_ATTRS.get(_type, 'title')
     nodes = [
@@ -82,49 +74,16 @@ def list_repofolders():
 
 @app.route('/view/<_type>/<es_id>')
 def view_item(_type, es_id):
-    url = '%s/%s/%s' % (ES_URL, _type, es_id)
-    response = requests.get(url)
-    doc = response.json()
+    doc = get_doc(_type, es_id)
     return render_template('view_item.html', doc=doc)
 
 
 @app.route('/browse/<path:obj_path>')
 def browse(obj_path):
     obj_path = '/%s' % obj_path.strip('/')
-    item_query = {
-        "filter": {
-            "match": {
-                "_path": obj_path
-            }
-        }
-    }
-
-    url = '%s/_search' % ES_URL
-    response = requests.get(url, json=item_query)
-    resultset = response.json()
-    assert resultset['hits']['total'] == 1
-    doc = resultset['hits']['hits'][0]
+    doc = query_by_path(obj_path)
 
     return render_template('browse.html', doc=doc)
-
-
-def create_es_mapping():
-    default_mapping = {
-        "properties": {
-            "_path": {
-                "type": "string",
-                "index": "not_analyzed"
-            },
-            "_parent_path": {
-                "type": "string",
-                "index": "not_analyzed"
-            }
-        }
-    }
-    indexdef = {"mappings": {'_default_': default_mapping}}
-
-    response = requests.put(ES_URL, json=indexdef)
-    return response
 
 
 @app.route('/reindex')
@@ -132,19 +91,6 @@ def reindex():
     create_es_mapping()
     data = get_example_content()
     for _id, item in enumerate(data):
-        _type = item.pop('_type')
-        _parent_path = os.path.dirname(item['_path'])
-        item['_parent_path'] = _parent_path
-        url = '/'.join((ES_URL, _type, str(_id)))
-        try:
-            response = requests.put(url, json=item)
-        except ConnectionError:
-            msg = ("Couldn't connect to ElasticSearch at %s - please "
-                   "make sure ES is running." % ES_URL)
-            print msg
-            raise
-
-        if response.status_code not in (200, 201):
-            raise Exception((response.status_code, response.text))
+        index_item(_id, item)
 
     return str({'status': 'success'})
