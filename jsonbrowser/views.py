@@ -1,4 +1,7 @@
+from flask import flash
+from flask import redirect
 from flask import render_template
+from flask import url_for
 from jsonbrowser.content.creation import get_example_content
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
@@ -95,4 +98,5 @@ def reindex():
     for item in data:
         index_item(item)
 
-    return str({'status': 'success'})
+    flash('Successfully reindexed %s items' % len(data))
+    return redirect(url_for('index'))
