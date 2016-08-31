@@ -78,7 +78,7 @@ def query_for_children(doc):
         "sort": ["_sortable_refnum"],
     }
 
-    url = '%s/_search' % ES_INDEX_URL
+    url = '%s/_search?size=%s' % (ES_INDEX_URL, ES_MAX_PAGE_SIZE)
     response = requests.get(url, json=query)
     resultset = response.json()
     docs = resultset['hits']['hits']
