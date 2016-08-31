@@ -44,10 +44,11 @@ def build_title_with_refnum(item):
 
 
 def translated_title_to_title(item):
-    title_de = item['title_de']
-    item['title'] = title_de
-    item.pop('title_de')
-    item.pop('title_fr')
+    if 'title_de' in item:
+        title_de = item['title_de']
+        item['title'] = title_de
+        item.pop('title_de')
+        item.pop('title_fr')
     return item
 
 
