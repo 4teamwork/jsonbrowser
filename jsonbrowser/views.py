@@ -93,6 +93,8 @@ def reindex():
     data = get_example_content()
     for _id, item in enumerate(data):
         _type = item.pop('_type')
+        _parent_path = os.path.dirname(item['_path'])
+        item['_parent_path'] = _parent_path
         url = '/'.join((ES_URL, _type, str(_id)))
         try:
             response = requests.put(url, json=item)
