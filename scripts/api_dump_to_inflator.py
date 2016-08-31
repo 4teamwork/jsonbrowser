@@ -67,6 +67,11 @@ def transform_item(item):
     for transform in TRANSFORMS:
         item = transform(item)
 
+    # Drop all unprocessed metadata
+    for key in item.keys():
+        if key.startswith('_meta_'):
+            item.pop(key)
+
     return item
 
 

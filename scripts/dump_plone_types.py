@@ -77,7 +77,8 @@ def fetch_items(session, item_urls):
             metadata = fetch_metadata_for_item(session, item)
             for fieldname in ADDITIONAL_METADATA:
                 assert fieldname not in item
-                item[fieldname] = metadata[fieldname]
+                meta_key = '_meta_%s' % fieldname
+                item[meta_key] = metadata[fieldname]
 
         yield item
 
