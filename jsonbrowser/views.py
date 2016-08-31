@@ -5,7 +5,6 @@ from flask import url_for
 from jsonbrowser.content.creation import get_example_content
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
-from jsonbrowser.es import get_doc
 from jsonbrowser.es import index_item
 from jsonbrowser.es import query_by_path
 from jsonbrowser.es import query_by_type
@@ -74,12 +73,6 @@ def list_repofolders():
     tree = tree_from_nodes(nodes, sortkey='_sortable_refnum')
 
     return render_template('repofolders.html', repofolders=tree)
-
-
-@app.route('/view/<_type>/<es_id>')
-def view_item(_type, es_id):
-    doc = get_doc(_type, es_id)
-    return render_template('view_item.html', doc=doc)
 
 
 @app.route('/browse/<path:obj_path>')

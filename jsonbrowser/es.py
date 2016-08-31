@@ -35,13 +35,6 @@ def delete_index():
     assert response.status_code == 200
 
 
-def get_doc(_type, es_id):
-    url = '%s/%s/%s' % (ES_INDEX_URL, _type, es_id)
-    response = requests.get(url)
-    doc = response.json()
-    return doc
-
-
 def query_by_type(_type):
     url = '%s/%s/_search?size=%s' % (ES_INDEX_URL, _type, ES_MAX_PAGE_SIZE)
     query = {'sort': ['_sortable_refnum']}
