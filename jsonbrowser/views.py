@@ -75,12 +75,6 @@ def theme_test():
     return render_template('theme-test.html')
 
 
-@app.route('/repofolders/')
-def list_repofolders():
-    navtree = build_navtree()
-    return render_template('repofolders.html', navtree=navtree)
-
-
 @app.route('/browse/')
 @app.route('/browse/<path:obj_path>')
 def browse(obj_path='/'):
