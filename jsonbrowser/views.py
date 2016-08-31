@@ -53,7 +53,7 @@ def theme_test():
 
 @app.route('/repofolders/')
 def list_repofolders():
-    _type = 'opengever.repository.repositoryroot'
+    _type = 'opengever.repository.repositoryfolder'
     url = '%s/%s/_search' % (ES_URL, _type)
     query = {'sort': ['_sortable_refnum']}
     response = requests.get(url, json=query)
