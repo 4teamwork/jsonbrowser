@@ -21,7 +21,11 @@ def url_to_path(item):
 
 def refnum_to_sortable_refnum(item):
     if '_refnum' in item:
-        parts = map(int, item['_refnum'].split('.'))
+        # Normalize any delimiters - doesn't matter for
+        # generating _sortable_refnum
+        refnum = item['_refnum'].replace('/', '.')
+
+        parts = map(int, refnum.split('.'))
         padded = ['%03d' % n for n in parts]
         _sortable_refnum = '-'.join(padded)
         item['_sortable_refnum'] = _sortable_refnum
