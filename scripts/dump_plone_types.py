@@ -81,11 +81,20 @@ def dump_pretty_json(data, stream):
         separators=(',', ': '))
 
 
+def verify_auth(session):
+    response = session.get(BASE_URL)
+    if response.status_code == 401:
+        print response.text
+        print response.status_code
+        raise Exception("Unauthorized")
+
+
 def main():
     with requests.Session() as session:
         headers = {'Accept': 'application/json'}
         session.headers.update(headers)
         session.auth = AUTH
+        verify_auth(session)
         crawl(session)
         dump_catalog()
         fetch_items_for_all_types(session)
