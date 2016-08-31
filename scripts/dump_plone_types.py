@@ -1,5 +1,6 @@
 import json
 import requests
+import time
 
 
 AUTH = ('lukas.graf', 'demo10')
@@ -109,7 +110,16 @@ def verify_auth(session):
         raise Exception("Unauthorized")
 
 
+def count_items(catalog):
+    items = 0
+    for key in catalog:
+        items += len(catalog[key])
+    return items
+
+
 def main():
+    start = time.time()
+
     with requests.Session() as session:
         headers = {'Accept': 'application/json'}
         session.headers.update(headers)
@@ -118,6 +128,14 @@ def main():
         crawl(session)
         dump_catalog()
         fetch_items_for_all_types(session)
+
+    duration = time.time() - start
+    num_items = sum(len(itemlist) for itemlist in CATALOG.itervalues())
+    print
+    print "Number of items: %s" % num_items
+    print "Duration: %.2fs" % duration
+    print "Time per item: %.2fs" % (duration / num_items)
+    print "Items / s: %.2fs" % (num_items / duration)
 
 
 if __name__ == '__main__':
