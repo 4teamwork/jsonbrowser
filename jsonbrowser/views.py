@@ -2,7 +2,7 @@ from flask import flash
 from flask import redirect
 from flask import render_template
 from flask import url_for
-from jsonbrowser.content.creation import get_example_content
+from jsonbrowser.content.creation import get_content
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
 from jsonbrowser.es import index_item
@@ -10,6 +10,7 @@ from jsonbrowser.es import query_by_path
 from jsonbrowser.es import query_by_type
 from jsonbrowser.flask_app import app
 import os
+import time
 
 
 FULL_TITLE_ATTRS = {
@@ -89,11 +90,14 @@ def browse(obj_path):
 
 @app.route('/reindex')
 def reindex():
+    start = time.time()
+
     delete_index()
     create_es_mapping()
-    data = get_example_content()
+    data = get_content()
     for item in data:
         index_item(item)
 
-    flash('Successfully reindexed %s items' % len(data))
+    duration = time.time() - start
+    flash('Successfully reindexed %s items in %.2fs' % (len(data), duration))
     return redirect(url_for('index'))
