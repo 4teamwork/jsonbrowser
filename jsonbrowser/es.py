@@ -30,6 +30,11 @@ def create_es_mapping():
     return response
 
 
+def delete_index():
+    response = requests.delete(ES_INDEX_URL)
+    assert response.status_code == 200
+
+
 def get_doc(_type, es_id):
     url = '%s/%s/%s' % (ES_INDEX_URL, _type, es_id)
     response = requests.get(url)

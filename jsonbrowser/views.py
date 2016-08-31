@@ -1,6 +1,7 @@
 from flask import render_template
 from jsonbrowser.content.creation import get_example_content
 from jsonbrowser.es import create_es_mapping
+from jsonbrowser.es import delete_index
 from jsonbrowser.es import get_doc
 from jsonbrowser.es import index_item
 from jsonbrowser.es import query_by_path
@@ -88,6 +89,7 @@ def browse(obj_path):
 
 @app.route('/reindex')
 def reindex():
+    delete_index()
     create_es_mapping()
     data = get_example_content()
     for item in data:
