@@ -9,6 +9,7 @@ import requests
 ES_BASE = 'http://localhost:9200/'
 ES_INDEX = 'migration'
 ES_URL = ''.join((ES_BASE, ES_INDEX))
+ES_MAX_PAGE_SIZE = 9999
 
 
 def tree_from_nodes(nodes, sortkey=None):
@@ -54,10 +55,12 @@ def theme_test():
 @app.route('/repofolders/')
 def list_repofolders():
     _type = 'opengever.repository.repositoryfolder'
-    url = '%s/%s/_search' % (ES_URL, _type)
+    url = '%s/%s/_search?size=%s' % (ES_URL, _type, ES_MAX_PAGE_SIZE)
     query = {'sort': ['_sortable_refnum']}
     response = requests.get(url, json=query)
-    repofolders = response.json()['hits']['hits']
+    resultset = response.json()
+    assert resultset['hits']['total'] <= ES_MAX_PAGE_SIZE
+    repofolders = resultset['hits']['hits']
 
     nodes = [
         {'_id': n['_id'],
