@@ -36,6 +36,13 @@ def extract_refnum(item):
     return item
 
 
+def build_title_with_refnum(item):
+    title = item['title']
+    title_with_refnum = '%s %s' % (item['_refnum'], title)
+    item['_title_with_refnum'] = title_with_refnum
+    return item
+
+
 def translated_title_to_title(item):
     title_de = item['title_de']
     item['title'] = title_de
@@ -59,6 +66,7 @@ TRANSFORMS = [
     translated_title_to_title,
     extract_refnum,
     refnum_to_sortable_refnum,
+    build_title_with_refnum,
 ]
 
 
