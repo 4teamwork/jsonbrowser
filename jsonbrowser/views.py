@@ -84,7 +84,18 @@ def list_repofolders():
 @app.route('/browse/<path:obj_path>')
 def browse(obj_path):
     obj_path = '/%s' % obj_path.strip('/')
-    doc = query_by_path(obj_path)
+    if obj_path == '/%s' % app.config['PLONE_SITE_ID']:
+        # Plone Site Root
+        doc = {
+            '_type': 'Plone Site',
+            '_source': {
+                '_path': '/fd',
+                '_parent_path': '/',
+                'title': app.config['PLONE_SITE_TITLE']
+            }
+        }
+    else:
+        doc = query_by_path(obj_path)
     navtree = build_navtree()
     children = query_for_children(doc)
     return render_template(
