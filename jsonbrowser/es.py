@@ -8,7 +8,7 @@ import requests
 
 ES_BASE = 'http://localhost:9200/'
 ES_INDEX = 'migration'
-ES_URL = ''.join((ES_BASE, ES_INDEX))
+ES_INDEX_URL = ''.join((ES_BASE, ES_INDEX))
 ES_MAX_PAGE_SIZE = 9999
 
 
@@ -26,19 +26,19 @@ def create_es_mapping():
         }
     }
     indexdef = {"mappings": {'_default_': default_mapping}}
-    response = requests.put(ES_URL, json=indexdef)
+    response = requests.put(ES_INDEX_URL, json=indexdef)
     return response
 
 
 def get_doc(_type, es_id):
-    url = '%s/%s/%s' % (ES_URL, _type, es_id)
+    url = '%s/%s/%s' % (ES_INDEX_URL, _type, es_id)
     response = requests.get(url)
     doc = response.json()
     return doc
 
 
 def query_by_type(_type):
-    url = '%s/%s/_search?size=%s' % (ES_URL, _type, ES_MAX_PAGE_SIZE)
+    url = '%s/%s/_search?size=%s' % (ES_INDEX_URL, _type, ES_MAX_PAGE_SIZE)
     query = {'sort': ['_sortable_refnum']}
     response = requests.get(url, json=query)
     resultset = response.json()
@@ -56,7 +56,7 @@ def query_by_path(obj_path):
         }
     }
 
-    url = '%s/_search' % ES_URL
+    url = '%s/_search' % ES_INDEX_URL
     response = requests.get(url, json=item_query)
     resultset = response.json()
     assert resultset['hits']['total'] == 1
@@ -68,12 +68,12 @@ def index_item(item):
     _type = item.pop('_type')
     _parent_path = os.path.dirname(item['_path'])
     item['_parent_path'] = _parent_path
-    url = '/'.join((ES_URL, _type))
+    url = '/'.join((ES_INDEX_URL, _type))
     try:
         response = requests.post(url, json=item)
     except ConnectionError:
         msg = ("Couldn't connect to ElasticSearch at %s - please "
-               "make sure ES is running." % ES_URL)
+               "make sure ES is running." % ES_INDEX_URL)
         print msg
         raise
 
