@@ -88,8 +88,28 @@ def view_item(_type, es_id):
     return render_template('view_item.html', doc=doc)
 
 
+def create_es_mapping():
+    default_mapping = {
+        "properties": {
+            "_path": {
+                "type": "string",
+                "index": "not_analyzed"
+            },
+            "_parent_path": {
+                "type": "string",
+                "index": "not_analyzed"
+            }
+        }
+    }
+    indexdef = {"mappings": {'_default_': default_mapping}}
+
+    response = requests.put(ES_URL, json=indexdef)
+    return response
+
+
 @app.route('/reindex')
 def reindex():
+    create_es_mapping()
     data = get_example_content()
     for _id, item in enumerate(data):
         _type = item.pop('_type')
