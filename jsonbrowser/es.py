@@ -22,6 +22,10 @@ def create_es_mapping():
             "_parent_path": {
                 "type": "string",
                 "index": "not_analyzed"
+            },
+            "_sortable_refnum": {
+                "type": "string",
+                "index": "not_analyzed"
             }
         }
     }
@@ -60,6 +64,25 @@ def query_by_path(obj_path):
     assert resultset['hits']['total'] == 1
     doc = resultset['hits']['hits'][0]
     return doc
+
+
+def query_for_children(doc):
+    _path = doc['_source']['_path']
+    query = {
+
+        "filter": {
+            "match": {
+                "_parent_path": _path
+            }
+        },
+        "sort": ["_sortable_refnum"],
+    }
+
+    url = '%s/_search' % ES_INDEX_URL
+    response = requests.get(url, json=query)
+    resultset = response.json()
+    docs = resultset['hits']['hits']
+    return docs
 
 
 def index_item(item):

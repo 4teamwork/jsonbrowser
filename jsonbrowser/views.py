@@ -6,6 +6,7 @@ from jsonbrowser.content.creation import get_content
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
 from jsonbrowser.es import index_item
+from jsonbrowser.es import query_for_children
 from jsonbrowser.es import query_by_path
 from jsonbrowser.es import query_by_type
 from jsonbrowser.flask_app import app
@@ -85,7 +86,9 @@ def browse(obj_path):
     obj_path = '/%s' % obj_path.strip('/')
     doc = query_by_path(obj_path)
     navtree = build_navtree()
-    return render_template('browse.html', doc=doc, navtree=navtree)
+    children = query_for_children(doc)
+    return render_template(
+        'browse.html', doc=doc, navtree=navtree, children=children)
 
 
 @app.route('/reindex')
