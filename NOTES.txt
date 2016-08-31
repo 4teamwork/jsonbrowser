@@ -1,0 +1,28 @@
+Metrics
+=======
+
+Max Documents per Dossier
+Max Nesting Depth Repofolders
+Max Nesting Depth Subdossiers
+Max Filesize
+
+Num Repofolders
+Num Dossiers
+Num Docs
+Num Docs with Files
+Num Docs without Files
+
+Num Ereignisse
+
+Avg Docs per Dossier
+Avg Dossiers per Repofolder
+
+Max title Length
+Min title Length
+
+
+Validations
+===========
+
+User-ID: Case sensitivity
+User-ID: Existing
