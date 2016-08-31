@@ -2,7 +2,7 @@ import json
 import requests
 
 
-AUTH = ('username', 'password')
+AUTH = ('lukas.graf', 'demo10')
 SITE_ID = 'fd'
 BASE_URL = 'http://localhost:8080/%s' % SITE_ID
 
@@ -13,6 +13,10 @@ TYPES = [
     'opengever.document.document',
     'ftw.mail.mail',
     'opengever.task.task',
+]
+
+ADDITIONAL_METADATA = [
+    'reference',
 ]
 
 CATALOG = {}
@@ -53,11 +57,27 @@ def dump_catalog():
         print
 
 
+def fetch_metadata_for_item(session, item):
+        uid = item['UID']
+        metadata_query_url = (
+            '%s/@search?UID=%s&metadata_fields=_all' % (BASE_URL, uid))
+        response = session.get(metadata_query_url)
+        assert len(response.json()['items']) == 1
+        metadata = response.json()['items'][0]
+        return metadata
+
+
 def fetch_items(session, item_urls):
     for url in item_urls:
         print "Fetching: %s" % url
         response = session.get(url)
         item = response.json()
+        if ADDITIONAL_METADATA:
+            metadata = fetch_metadata_for_item(session, item)
+            for fieldname in ADDITIONAL_METADATA:
+                assert fieldname not in item
+                item[fieldname] = metadata[fieldname]
+
         yield item
 
 
