@@ -29,10 +29,11 @@ def refnum_to_sortable_refnum(item):
 
 def extract_refnum(item):
     refnum = item['_meta_reference']
-    assert refnum.startswith(SITE_ABBR)
-    refnum = refnum.replace(SITE_ABBR, '').strip()
-    item['_refnum'] = refnum
-    item.pop('_meta_reference')
+    if refnum is not None:
+        assert refnum.startswith(SITE_ABBR)
+        refnum = refnum.replace(SITE_ABBR, '').strip()
+        item['_refnum'] = refnum
+        item.pop('_meta_reference')
     return item
 
 
