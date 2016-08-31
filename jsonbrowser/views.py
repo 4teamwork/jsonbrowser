@@ -88,6 +88,26 @@ def view_item(_type, es_id):
     return render_template('view_item.html', doc=doc)
 
 
+@app.route('/browse/<path:obj_path>')
+def browse(obj_path):
+    obj_path = '/%s' % obj_path.strip('/')
+    item_query = {
+        "filter": {
+            "match": {
+                "_path": obj_path
+            }
+        }
+    }
+
+    url = '%s/_search' % ES_URL
+    response = requests.get(url, json=item_query)
+    resultset = response.json()
+    assert resultset['hits']['total'] == 1
+    doc = resultset['hits']['hits'][0]
+
+    return render_template('browse.html', doc=doc)
+
+
 def create_es_mapping():
     default_mapping = {
         "properties": {
