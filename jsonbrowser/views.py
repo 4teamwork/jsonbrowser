@@ -63,7 +63,7 @@ def list_repofolders():
         {'_id': n['_id'],
          '_path': n['_source']['_path'],
          'title': n['_source']['title'],
-         '_sortable_refnum': n['_source']['title'],
+         '_sortable_refnum': n['_source']['_sortable_refnum'],
          }
         for n in repofolders]
     tree = tree_from_nodes(nodes, sortkey='_sortable_refnum')
