@@ -20,10 +20,11 @@ def url_to_path(item):
 
 
 def refnum_to_sortable_refnum(item):
-    parts = map(int, item['_refnum'].split('.'))
-    padded = ['%03d' % n for n in parts]
-    _sortable_refnum = '-'.join(padded)
-    item['_sortable_refnum'] = _sortable_refnum
+    if '_refnum' in item:
+        parts = map(int, item['_refnum'].split('.'))
+        padded = ['%03d' % n for n in parts]
+        _sortable_refnum = '-'.join(padded)
+        item['_sortable_refnum'] = _sortable_refnum
     return item
 
 
@@ -43,9 +44,10 @@ def extract_refnum(item):
 
 
 def build_title_with_refnum(item):
-    title = item['title']
-    title_with_refnum = '%s %s' % (item['_refnum'], title)
-    item['_title_with_refnum'] = title_with_refnum
+    if item['_type'] == 'opengever.repository.repositoryfolder':
+        title = item['title']
+        title_with_refnum = '%s %s' % (item['_refnum'], title)
+        item['_title_with_refnum'] = title_with_refnum
     return item
 
 
