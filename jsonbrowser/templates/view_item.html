@@ -10,10 +10,10 @@
   <h1>{{item.title}} <small>({{ doc._type }})</small></h1>
 
   <table class="table table-bordered table-hover">
-      {% for key, value in item.iteritems() %}
+      {% for key in item.keys()|sort %}
       <tr>
             <th>{{ key }}</th>
-            <td>{{ value }}</td>
+            <td>{{ item[key] }}</td>
       </tr>
       {% endfor %}
   </table>
