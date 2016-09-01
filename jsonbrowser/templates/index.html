@@ -7,7 +7,21 @@
 
 <div class="jumbotron">
         <h1>JSONBrowser</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt faucibus sapien at posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        <hr />
+
+        <p><strong>Number of Objects:</strong></p>
+
+        <table class="table table-bordered table-hover">
+            {% for key in type_counts.keys()|sort %}
+            <tr>
+                  <th>{{ key }}</th>
+                  <td>{{ type_counts[key] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+        <strong>Total:</strong> {{ total }}
 
     <h2><a href="/browse/">Browse</a></h2>
 

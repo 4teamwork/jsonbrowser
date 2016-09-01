@@ -4,6 +4,7 @@ from flask import render_template
 from flask import request
 from flask import url_for
 from jsonbrowser.content.creation import get_content
+from jsonbrowser.es import count_objs
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
 from jsonbrowser.es import fulltext_search
@@ -69,7 +70,9 @@ def build_navtree():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    type_counts = count_objs()
+    total = sum(type_counts.values())
+    return render_template('index.html', type_counts=type_counts, total=total)
 
 
 @app.route('/theme-test')

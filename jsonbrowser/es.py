@@ -93,6 +93,23 @@ def fulltext_search(search_query):
     return docs
 
 
+def count_objs():
+    query = {
+        "size": 0,
+        "aggs": {
+            "type_counts": {
+                "terms": {"field": "_type"}
+            }
+        }
+    }
+    url = '%s/_search' % ES_INDEX_URL
+    response = requests.get(url, json=query)
+    resultset = response.json()
+    type_counts = resultset['aggregations']['type_counts']['buckets']
+    type_counts = dict([(c['key'], c['doc_count']) for c in type_counts])
+    return type_counts
+
+
 def index_item(item):
     _type = item.pop('_type')
     _parent_path = os.path.dirname(item['_path'])
