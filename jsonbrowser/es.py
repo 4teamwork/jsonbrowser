@@ -113,6 +113,7 @@ def count_objs():
 
 
 def index_item(item):
+    print "Indexing item %s" % item['_path']
     _type = item.pop('_type')
     _parent_path = os.path.dirname(item['_path'])
     item['_parent_path'] = _parent_path
