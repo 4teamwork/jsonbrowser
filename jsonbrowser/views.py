@@ -7,6 +7,7 @@ from jsonbrowser.content.creation import get_content
 from jsonbrowser.es import count_objs
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
+from jsonbrowser.es import flush_index
 from jsonbrowser.es import fulltext_search
 from jsonbrowser.es import index_item
 from jsonbrowser.es import query_by_path
@@ -125,5 +126,6 @@ def reindex():
         index_item(item)
 
     duration = time.time() - start
+    flush_index()
     flash('Successfully reindexed %s items in %.2fs' % (len(data), duration))
     return redirect(url_for('index'))

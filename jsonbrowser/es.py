@@ -128,3 +128,9 @@ def index_item(item):
 
     if response.status_code not in (200, 201):
         raise Exception((response.status_code, response.text))
+
+
+def flush_index():
+    url = '%s/_flush' % ES_INDEX_URL
+    response = requests.post(url)
+    assert response.status_code == 200
