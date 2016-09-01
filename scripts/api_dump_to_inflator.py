@@ -23,9 +23,10 @@ def refnum_to_sortable_refnum(item):
     if '_refnum' in item:
         # Normalize any delimiters - doesn't matter for
         # generating _sortable_refnum
-        refnum = item['_refnum'].replace('/', '.')
-
+        refnum = item['_refnum'].replace('/', '.').replace(' ', '')
+        refnum = refnum.strip('.')
         parts = map(int, refnum.split('.'))
+
         padded = ['%03d' % n for n in parts]
         _sortable_refnum = '-'.join(padded)
         item['_sortable_refnum'] = _sortable_refnum
@@ -37,11 +38,14 @@ def extract_refnum(item):
     if refnum is not None:
         assert refnum.startswith(SITE_ABBR)
         refnum = refnum.replace(SITE_ABBR, '').strip()
+
         item['_refnum'] = refnum
 
         # Deal with templates and other objs with fake refnums
         if item['_refnum'].startswith('/ '):
             item['_refnum'] = item['_refnum'].replace('/ ', '', 1)
+        if 'Vorlagen' in refnum:
+            item['_refnum'] = item['_refnum'].replace('Vorlagen', '').strip()
 
         item.pop('_meta_reference')
     return item
