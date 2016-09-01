@@ -7,8 +7,17 @@
 
 {% block content %}
 
+<div class="pull-right">
+    <form action="/search" method="get">
+    <input type="submit" class="pull-right" value="Search">
+    <input type="text" name="query" class="pull-right">
+    <form>
+</div>
+
+<div class="clearfix"></div>
+
 <div class="col-md-3">
-    <div class="page-header">
+    <div>
         <h1>Repository</h1>
     </div>
     {% from 'navtree-macro.html' import render_navtree %}
@@ -16,7 +25,7 @@
 </div>
 
 <div class="col-md-9">
-    <div class="page-header">
+    <div>
       <h1>{{item.title}} <small>({{ doc._type }})</small></h1>
 
       <p>

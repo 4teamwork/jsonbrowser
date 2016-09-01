@@ -85,6 +85,14 @@ def query_for_children(doc):
     return docs
 
 
+def fulltext_search(search_query):
+    url = '%s/_search?size=25&q=%s' % (ES_INDEX_URL, search_query)
+    response = requests.get(url)
+    resultset = response.json()
+    docs = resultset['hits']['hits']
+    return docs
+
+
 def index_item(item):
     _type = item.pop('_type')
     _parent_path = os.path.dirname(item['_path'])

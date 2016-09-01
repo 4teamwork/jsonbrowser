@@ -1,14 +1,16 @@
 from flask import flash
 from flask import redirect
 from flask import render_template
+from flask import request
 from flask import url_for
 from jsonbrowser.content.creation import get_content
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
+from jsonbrowser.es import fulltext_search
 from jsonbrowser.es import index_item
-from jsonbrowser.es import query_for_children
 from jsonbrowser.es import query_by_path
 from jsonbrowser.es import query_by_type
+from jsonbrowser.es import query_for_children
 from jsonbrowser.flask_app import app
 import os
 import time
@@ -100,6 +102,13 @@ def browse(obj_path='/'):
     children = query_for_children(doc)
     return render_template(
         'browse.html', doc=doc, navtree=navtree, children=children)
+
+
+@app.route('/search')
+def search():
+    query = request.args.get('query')
+    docs = fulltext_search(query)
+    return render_template('searchresults.html', docs=docs)
 
 
 @app.route('/reindex')

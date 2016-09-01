@@ -1,0 +1,35 @@
+{% extends "bootstrap/base.html" %}
+{% set active_page = "search" %}
+{% block title %}{{Search}}{% endblock %}
+
+{% block content %}
+
+<div class="pull-right">
+    <form action="/search" method="get">
+    <input type="submit" class="pull-right" value="Search">
+    <input type="text" name="query" class="pull-right">
+    <form>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="col-md-9">
+    <div>
+      <h1>Search Results</h1>
+
+      {% for doc in docs %}
+      {% set item = doc['_source'] %}
+      <div><p>
+          <strong><a href="{{ url_for('browse', obj_path=item._path.lstrip('/')) }}">{{ item.title }}</a></strong></br>
+          <small><a href="{{ url_for('browse', obj_path=item._path.lstrip('/')) }}">{{ item._path }}</a></small>
+          <br/>
+          <small class="text-muted">({{ doc._type}})</small>
+      </p></div>
+      <hr />
+      {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
+
