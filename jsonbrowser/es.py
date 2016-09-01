@@ -36,7 +36,9 @@ def create_es_mapping():
 
 def delete_index():
     response = requests.delete(ES_INDEX_URL)
-    assert response.status_code == 200
+    if response.status_code == 404:
+        print "Index %r not found when trying to DELETE" % ES_INDEX
+    assert response.status_code in (200, 404)
 
 
 def query_by_type(_type):
