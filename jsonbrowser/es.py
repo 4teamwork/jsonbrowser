@@ -1,15 +1,13 @@
 """ElasticSearch specific helpers.
 """
 
+from jsonbrowser.flask_app import app
 from requests.exceptions import ConnectionError
 import os
 import requests
 
 
-ES_BASE = 'http://localhost:9200/'
-ES_INDEX = 'migrationsss'
-ES_INDEX_URL = ''.join((ES_BASE, ES_INDEX))
-ES_MAX_PAGE_SIZE = 9999
+ES_INDEX_URL = ''.join((app.config['ES_URL'], app.config['ES_INDEX']))
 
 
 def create_es_mapping():
@@ -42,16 +40,18 @@ def index_present():
 def delete_index():
     response = requests.delete(ES_INDEX_URL)
     if response.status_code == 404:
-        print "Index %r not found when trying to DELETE" % ES_INDEX
+        print ("Index %r not found when "
+               "trying to DELETE" % app.config['ES_INDEX'])
     assert response.status_code in (200, 404)
 
 
 def query_by_type(_type):
-    url = '%s/%s/_search?size=%s' % (ES_INDEX_URL, _type, ES_MAX_PAGE_SIZE)
+    size = app.config['ES_MAX_PAGE_SIZE']
+    url = '%s/%s/_search?size=%s' % (ES_INDEX_URL, _type, size)
     query = {'sort': ['_sortable_refnum']}
     response = requests.get(url, json=query)
     resultset = response.json()
-    assert resultset['hits']['total'] <= ES_MAX_PAGE_SIZE
+    assert resultset['hits']['total'] <= size
     docs = resultset['hits']['hits']
     return docs
 
@@ -85,7 +85,8 @@ def query_for_children(doc):
         "sort": ["_sortable_refnum"],
     }
 
-    url = '%s/_search?size=%s' % (ES_INDEX_URL, ES_MAX_PAGE_SIZE)
+    size = app.config['ES_MAX_PAGE_SIZE']
+    url = '%s/_search?size=%s' % (ES_INDEX_URL, size)
     response = requests.get(url, json=query)
     resultset = response.json()
     docs = resultset['hits']['hits']

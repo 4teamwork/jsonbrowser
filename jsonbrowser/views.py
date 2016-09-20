@@ -7,7 +7,6 @@ from jsonbrowser.jsonloader import get_content
 from jsonbrowser.es import count_objs
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
-from jsonbrowser.es import ES_INDEX
 from jsonbrowser.es import flush_index
 from jsonbrowser.es import fulltext_search
 from jsonbrowser.es import index_item
@@ -75,7 +74,7 @@ def build_navtree():
 def index():
     if not index_present():
         flash("Couldn't find index %r in ElasticSearch. Make sure to index "
-              "some data first (Manage > Reindex)." % ES_INDEX)
+              "some data first (Manage > Reindex)." % app.config['ES_INDEX'])
         type_counts = {}
         total = 0
     else:
