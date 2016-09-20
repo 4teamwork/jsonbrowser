@@ -3,7 +3,7 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
-from jsonbrowser.content.creation import get_content
+from jsonbrowser.jsonloader import get_content
 from jsonbrowser.es import count_objs
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
