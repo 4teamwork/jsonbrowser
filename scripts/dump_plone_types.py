@@ -3,7 +3,7 @@ import requests
 import time
 
 
-AUTH = ('lukas.graf', 'demo10')
+AUTH = ('<username>', '<password>')
 SITE_ID = 'fd'
 BASE_URL = 'http://localhost:8080/%s' % SITE_ID
 

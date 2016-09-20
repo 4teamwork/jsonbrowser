@@ -78,3 +78,13 @@ Running JSONBrowser
     run-jsonbrowser     # (inside activated venv)
 
 Open http://localhost:5000/
+
+Helper Scripts
+^^^^^^^^^^^^^^
+
+`dump_plone_types.py <https://github.com/4teamwork/jsonbrowser/blob/master/scripts/dump_plone_types.py>`_ - dumps common GEVER types from a (local or remote) Plone site via ``plone.restapi``
+
+
+`api_dump_to_inflator.py <https://github.com/4teamwork/jsonbrowser/blob/master/scripts/api_dump_to_inflator.py>`_ - transforms a JSON dump produced by the script above into a JSON dump usable by ``ftw.inflator`` / ``jsonbrowser``
+
+
