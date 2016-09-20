@@ -34,6 +34,11 @@ def create_es_mapping():
     return response
 
 
+def index_present():
+    response = requests.get(ES_INDEX_URL)
+    return response.status_code == 200
+
+
 def delete_index():
     response = requests.delete(ES_INDEX_URL)
     if response.status_code == 404:

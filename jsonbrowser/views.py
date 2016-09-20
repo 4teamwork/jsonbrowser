@@ -7,9 +7,11 @@ from jsonbrowser.content.creation import get_content
 from jsonbrowser.es import count_objs
 from jsonbrowser.es import create_es_mapping
 from jsonbrowser.es import delete_index
+from jsonbrowser.es import ES_INDEX
 from jsonbrowser.es import flush_index
 from jsonbrowser.es import fulltext_search
 from jsonbrowser.es import index_item
+from jsonbrowser.es import index_present
 from jsonbrowser.es import query_by_path
 from jsonbrowser.es import query_by_type
 from jsonbrowser.es import query_for_children
@@ -71,8 +73,14 @@ def build_navtree():
 
 @app.route('/')
 def index():
-    type_counts = count_objs()
-    total = sum(type_counts.values())
+    if not index_present():
+        flash("Couldn't find index %r in ElasticSearch. Make sure to index "
+              "some data first (Manage > Reindex)." % ES_INDEX)
+        type_counts = {}
+        total = 0
+    else:
+        type_counts = count_objs()
+        total = sum(type_counts.values())
     return render_template('index.html', type_counts=type_counts, total=total)
 
 
