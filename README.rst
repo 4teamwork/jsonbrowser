@@ -22,31 +22,32 @@ Create a virtualenv:
 .. code::
 
     virtualenv-2.7 --no-site-packages jsonbrowser-env
-
     cd jsonbrowser-env/
-    . bin/activate
+    source bin/activate
 
 
-Clone the package and provide a configuration
+Clone the package and install it as a development egg
 
 .. code::
 
     mkdir src
-    git clone git@github.com:4teamwork/jsonbrowser.git src/jsonbrowser
+    cd src
+    git clone git@github.com:4teamwork/jsonbrowser.git
+    cd jsonbrowser
+    python setup.py develop
+    cd ../..
 
+Create a configuration
+
+.. code::
+
+    # Create the Flask instance folder - holds config and variable data
     mkdir -p var/jsonbrowser.flask_app-instance
+
     cp src/jsonbrowser/jsonbrowser.cfg.example var/jsonbrowser.flask_app-instance/jsonbrowser.cfg
 
     # Change SESSION_SECRET
     vim var/jsonbrowser.flask_app-instance/jsonbrowser.cfg
-
-
-Install the package as a development egg:
-
-.. code::
-
-    cd src/jsonbrowser/
-    python setup.py develop
 
 
 Add a JSON dataset and index it
@@ -75,3 +76,5 @@ Running JSONBrowser
 
     bin/elasticsearch
     run-jsonbrowser     # (inside activated venv)
+
+Open http://localhost:5000/
