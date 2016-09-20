@@ -45,9 +45,28 @@ Install the package as a development egg:
 
 .. code::
 
-    cd jsonbrowser/
+    cd src/jsonbrowser/
     python setup.py develop
 
+
+Add a JSON dataset and index it
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Add a dataset (a collection of ``<portal_type>.json`` files) to
+``var/jsonbrowser.flask_app-instance/dataset``, or use the provided example
+dataset:
+
+.. code::
+
+    cp -r src/jsonbrowser/example_datasets/small var/jsonbrowser.flask_app-instance/dataset
+
+Then run JSONBrowser and select `Manage > Reindex` from the menu. This will
+(re)index the JSON dataset in that location into ES.
+
+.. note::
+
+    The ES index identified by ``ES_INDEX_NAME`` in the configuration will be
+    **DROPPED** and and repopulated by the ``Reindex`` action!
 
 Running JSONBrowser
 ^^^^^^^^^^^^^^^^^^^
@@ -56,8 +75,3 @@ Running JSONBrowser
 
     bin/elasticsearch
     run-jsonbrowser     # (inside activated venv)
-
-Add JSON datasets and index them
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-TODO: Document!
