@@ -61,12 +61,12 @@ dataset:
 
     cp -r src/jsonbrowser/example_datasets/small var/jsonbrowser.flask_app-instance/dataset
 
-Then run JSONBrowser and select `Manage > Reindex` from the menu. This will
+Then run JSONBrowser and select ``Manage > Reindex`` from the menu. This will
 (re)index the JSON dataset in that location into ES.
 
 .. note::
 
-    The ES index identified by ``ES_INDEX_NAME`` in the configuration will be
+    The ES index identified by ``ES_INDEX`` in the configuration will be
     **DROPPED** and and repopulated by the ``Reindex`` action!
 
 Running JSONBrowser
