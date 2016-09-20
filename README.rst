@@ -35,7 +35,7 @@ Clone the package and provide a configuration
     git clone git@github.com:4teamwork/jsonbrowser.git src/jsonbrowser
 
     mkdir -p var/jsonbrowser.flask_app-instance
-    cp src/jsonbrowser/jsonbrowser.cfg.default var/jsonbrowser.flask_app-instance/jsonbrowser.cfg
+    cp src/jsonbrowser/jsonbrowser.cfg.example var/jsonbrowser.flask_app-instance/jsonbrowser.cfg
 
     # Change SESSION_SECRET
     vim var/jsonbrowser.flask_app-instance/jsonbrowser.cfg
