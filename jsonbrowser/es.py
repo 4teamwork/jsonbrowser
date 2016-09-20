@@ -7,7 +7,7 @@ import requests
 
 
 ES_BASE = 'http://localhost:9200/'
-ES_INDEX = 'migration'
+ES_INDEX = 'migrationsss'
 ES_INDEX_URL = ''.join((ES_BASE, ES_INDEX))
 ES_MAX_PAGE_SIZE = 9999
 
