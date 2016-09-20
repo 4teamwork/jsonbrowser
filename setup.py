@@ -34,7 +34,7 @@ setup(
 
     install_requires=[
         'setuptools',
-        'Flask',
+        'Flask>=0.11.1',
         'Flask-Bootstrap',
         'requests',
     ],
